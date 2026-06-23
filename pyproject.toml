@@ -37,6 +37,10 @@ dev = [
     "pytest",
     "black"
 ]
+slack = [
+    "slack-bolt>=1.18.0",
+    "python-dotenv>=1.0.0"
+]
 
 [tool.setuptools]
 package-dir = {"" = "src"}

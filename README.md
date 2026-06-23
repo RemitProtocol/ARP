@@ -82,6 +82,36 @@ ARP divides transaction volume and entity risk profiles into four distinct compl
 ### 🤖 Model Context Protocol (MCP) Native
 ARP exposes its entire state machine, wallet provisioning, and routing system as standard **Model Context Protocol (MCP)** tools. Any LLM (Claude, GPT, Gemini, Qwen) running an MCP client can immediately discover and interact with the protocol without requiring custom API clients or specialized tool bindings.
 
+> **AI reasons. MCP exposes tools. ARP enforces. Partner rails execute.**
+
+---
+
+## Slack Agent Integration
+
+St4bl / ARP can also run as a Slack Agent for teams, operators, and support workflows that need a controlled interface into remittance routing.
+
+The Slack integration provides a conversational surface for:
+
+- checking remittance routes
+- staging family-support transfers
+- reviewing sender policy status
+- requesting human approval
+- viewing audit summaries
+- escalating exceptions to an operator
+
+Slack does not move money directly.
+
+The Slack Agent calls ARP tools through the MCP boundary. ARP enforces sender policy, staged execution, idempotency keys, execution locks, and append-only audit logging.
+
+**Current Slack status:**
+
+- Slack Agent wrapper: added as integration scaffold
+- Slack command / event handlers: local development implementation
+- ARP MCP tool calls: wired through adapter layer
+- Production Slack deployment: requires Slack app credentials
+
+See [`integrations/slack/README.md`](integrations/slack/README.md) and [`docs/SLACK_AGENT_ARCHITECTURE.md`](docs/SLACK_AGENT_ARCHITECTURE.md) for setup and architecture details.
+
 ---
 
 ## 🗺️ Architectural Flow
@@ -131,7 +161,18 @@ ARP/
 ├── protocol/
 │   └── spec.md                # Protocol specifications, invariants & ERC concepts
 ├── docs/
+│   ├── SLACK_AGENT_ARCHITECTURE.md
 │   └── legacy/                # Historical draft evidence (not current production claims)
+├── integrations/
+│   └── slack/                 # Slack Agent channel adapter (ARP enforcement unchanged)
+│       ├── README.md
+│       ├── slack_agent.py
+│       ├── arp_client.py
+│       ├── handlers.py
+│       ├── approval_flow.py
+│       └── audit_view.py
+├── examples/
+│   └── slack_agent_demo.py    # Local demo without Slack credentials
 ├── src/
 │   └── arp/
 │       ├── __init__.py        # Package initialization
@@ -190,6 +231,17 @@ ARP integrates seamlessly with your local development toolsets. Launch the MCP h
 mcp dev src/arp/mcp/server.py
 ```
 This spawns the interactive MCP developer server, enabling you to inspect tools (`stage_intent`, `get_routing_quote`, `execute_transfer`, `provision_wallet_on_attestation`), run mock payloads, and analyze client agent logs directly.
+
+### 5. Slack Agent (optional)
+Install Slack dependencies and run the local demo (no Slack credentials required):
+```bash
+pip install -e ".[slack]"
+python examples/slack_agent_demo.py
+```
+For a live Slack app, configure the `SLACK_*` variables in `.env` and run:
+```bash
+python integrations/slack/slack_agent.py
+```
 
 ---
 
