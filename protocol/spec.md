@@ -2,6 +2,21 @@
 
 This document details the core protocols, invariants, models, state machine transitions, and policy frameworks for the Agent Remittance Protocol (ARP). ARP serves as a consent-enforced, multi-rail routing, and non-custodial treasury execution layer for autonomous AI agents handling cross-border payments.
 
+## Integration Status (Summary)
+
+| Rail / Component | Status |
+| :--- | :--- |
+| Wise EUR→KES | Live fiat rail where configured |
+| IntaSend / M-Pesa B2C | Integrated for Kenya payout flows |
+| Circle StableFX / EURC | Sandbox integrated for EUR→EURC quote testing only |
+| Circle production execution | Planned grant milestone |
+| Swypt USD→USDT→M-Pesa | Confirmed by partner |
+| Swypt EURC→M-Pesa | In technical validation; not yet confirmed |
+| qwen3.5-flash | Live Qwen Cloud reasoning runtime (reasoning only) |
+| Gemini 3.5 Flash | Gemini reasoning runtime (reasoning only) |
+
+Gemini and Qwen are reference reasoning runtimes. ARP is the deterministic execution and safety layer. LLMs do not execute funds.
+
 ---
 
 ## 1. Core Lifecycle State Machine

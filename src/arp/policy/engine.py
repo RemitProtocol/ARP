@@ -41,7 +41,7 @@ TIER_3_CORPORATE = PolicyTier(
     max_per_tx=20000.00,
     max_per_period=100000.00,
     consent_class=ConsentClass.RFQ_COUNTERSIGN,
-    eligible_rails=["Swypt", "Wise", "Circle Settlement"],
+    eligible_rails=["Swypt", "Wise", "Circle StableFX (sandbox)"],
     required_attestations=["corporate_sign_mandate_jwt", "kyb_verification_signature"]
 )
 
@@ -50,7 +50,7 @@ TIER_4_INSTITUTIONAL = PolicyTier(
     max_per_tx=1000000.00,
     max_per_period=5000000.00,
     consent_class=ConsentClass.MULTISIG,
-    eligible_rails=["Circle Settlement", "Wise Prime"],
+    eligible_rails=["Circle StableFX (sandbox)", "Wise Prime"],
     required_attestations=["multisig_threshold_payload", "kyb_verification_signature", "erc8004_validation_proof"]
 )
 
