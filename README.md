@@ -16,8 +16,8 @@ An open-source, non-custodial, consent-enforced execution layer for AI agents ro
 - **Circle StableFX / EURC:** sandbox integrated for EUR→EURC quote testing only
 - **Circle production execution:** planned grant milestone
 - **Swypt:** USD→USDT→M-Pesa capability confirmed by partner; EURC→M-Pesa in technical validation
-- **qwen3.5-flash:** live Qwen Cloud reasoning runtime for hackathon demo
-- **Gemini 3.5 Flash:** Gemini reasoning runtime for Google hackathon demo
+- **qwen3.5-flash:** live Qwen Cloud reasoning runtime
+- **Gemini 3.5 Flash:** Gemini reasoning runtime for Google
 
 > **Gemini and Qwen are reference reasoning runtimes. ARP is the deterministic execution and safety layer.** Neither model executes funds — ARP enforces policy, consent, and execution.
 
@@ -37,7 +37,7 @@ In an era of agentic commerce, autonomous systems must transact across borders w
 | **Sandbox Circle** | Circle StableFX / EURC — EUR→EURC quote testing | Integrated (sandbox) |
 | **Planned Circle grant milestones** | StableFX production, EURC-enabled last-mile validation, Circle Wallets Treasury | Planned |
 | **Partner last-mile** | Swypt USD→USDT→M-Pesa (confirmed); EURC→M-Pesa (validation) | Partial |
-| **Reasoning runtimes** | qwen3.5-flash (Qwen hackathon), Gemini 3.5 Flash (Google hackathon) | Live (reasoning only) |
+| **Reasoning runtimes** | qwen3.5-flash (Qwen), Gemini 3.5 Flash (Google) | Live (reasoning only) |
 
 ### 🎯 Circle Ecosystem Value Proposition
 * **Programmable Settlement**: Integration blueprints for **Circle Programmable Wallets** (developer-controlled and user-controlled) and Circle minting/redeeming pipelines.
@@ -47,10 +47,10 @@ In an era of agentic commerce, autonomous systems must transact across borders w
 
 ### 🤖 Model-agnostic reasoning runtimes
 
-ARP supports both **Gemini** and **Qwen** hackathon submissions:
+ARP supports both **Gemini** and **Qwen**:
 
 - **qwen3.5-flash** is integrated as the Qwen Cloud reasoning runtime for intent parsing, workflow-step selection, and explanation generation.
-- **Gemini 3.5 Flash** serves as the Gemini reasoning runtime for Google hackathon demos.
+- **Gemini 3.5 Flash** serves as the Gemini reasoning runtime for Google.
 - **ARP enforces policy and execution.** LLMs propose intents and select tools; the state machine and policy engine control fund movement.
 
 ---
@@ -209,7 +209,7 @@ black src/
 
 ## 📜 Historical Evidence (Legacy)
 
-Earlier hackathon draft documents with illustrative revenue and execution traces are preserved under [`docs/legacy/`](docs/legacy/). These are labeled **"Historical draft / illustrative evidence — not current Circle production claim."** They must not be interpreted as proof of live Circle EURC / StableFX production settlement.
+Earlier draft documents with illustrative revenue and execution traces are preserved under [`docs/legacy/`](docs/legacy/). These are labeled **"Historical draft / illustrative evidence — not current Circle production claim."** They must not be interpreted as proof of live Circle EURC / StableFX production settlement.
 
 ---
 
