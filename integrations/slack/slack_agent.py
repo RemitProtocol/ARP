@@ -53,13 +53,22 @@ app = App(token=SLACK_BOT_TOKEN, signing_secret=SLACK_SIGNING_SECRET or None)
 
 
 @app.command("/st4bl")
-def handle_st4bl_command(ack, command, respond):
+def handle_slash_command(ack, command, respond):
     """Route /st4bl slash commands through ARP handlers."""
     ack()
+
+    # Debug logging — raw payload
+    logger.debug("[slack] raw command payload: %s", command)
+
     user_id = command.get("user_id", "slack-user")
     text = command.get("text", "")
-    logger.info("Received /st4bl from user=%s text=%r", user_id, text)
+
+    logger.info("[slack] /st4bl received  user=%s  text=%r", user_id, text)
+
     response = dispatch_command(text, user_id=user_id)
+
+    logger.debug("[slack] response to Slack:\n%s", response)
+
     respond(response)
 
 

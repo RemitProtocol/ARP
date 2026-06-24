@@ -11,16 +11,20 @@ By default this module uses deterministic mock responses and never calls real ra
 from __future__ import annotations
 
 import hashlib
+import logging
 import os
 import re
 import uuid
 from datetime import datetime, timezone
 from typing import Any
 
+logger = logging.getLogger("arp.slack_agent.arp_client")
+
 # In-memory mock stores (deterministic local development only).
 _STAGED_TRANSFERS: dict[str, dict[str, Any]] = {}
 _AUDIT_LEDGER: list[dict[str, Any]] = []
 _APPROVAL_TOKENS: dict[str, str] = {}
+_TRANSFER_COUNTER: int = 0
 
 DEFAULT_SENDER_ID = "principal-retail-123"
 MOCK_FX_RATE = 132.50
@@ -32,7 +36,10 @@ def _now_iso() -> str:
 
 
 def _transfer_id() -> str:
-    return f"trf-{uuid.uuid4().hex[:12]}"
+    """Generate a deterministic, human-readable transfer ID: DEMO-001, DEMO-002, …"""
+    global _TRANSFER_COUNTER
+    _TRANSFER_COUNTER += 1
+    return f"DEMO-{_TRANSFER_COUNTER:03d}"
 
 
 def _audit(event: str, transfer_id: str, details: dict[str, Any]) -> None:
@@ -131,11 +138,11 @@ def get_quote(intent: dict[str, Any]) -> dict[str, Any]:
     amount = float(intent["target_amount"])
     currency = intent.get("target_currency", "KES")
     source_amount = round(amount / MOCK_FX_RATE, 2) if currency == "KES" else amount
-    mpesa_fee = 85.0 if amount <= 5000 else 112.0
+    mpesa_fee = 35.0 if amount <= 5000 else 60.0
     net_received = max(0.0, amount - mpesa_fee) if currency == "KES" else amount
 
     # Prefer live fiat rails where configured; Circle quotes are sandbox-only.
-    selected_rail = "IntaSend" if amount <= POLICY_LIMIT_KES else "Wise"
+    selected_rail = "IntaSend / M-Pesa B2C" if amount <= POLICY_LIMIT_KES else "Wise"
 
     quote = {
         "quote_id": f"q-{uuid.uuid4().hex[:8]}",
@@ -295,3 +302,17 @@ def mark_rejected(transfer_id: str, approver_id: str, reason: str = "operator_re
     staged["rejected_at"] = _now_iso()
     _audit("transfer_rejected", transfer_id, {"reason": reason, "approver_id": approver_id})
     return {"status": "REJECTED", "transfer_id": transfer_id}
+
+
+def reset_stores() -> None:
+    """Reset all in-memory stores — use in tests for isolation."""
+    global _TRANSFER_COUNTER
+    _STAGED_TRANSFERS.clear()
+    _AUDIT_LEDGER.clear()
+    _APPROVAL_TOKENS.clear()
+    _TRANSFER_COUNTER = 0
+
+
+def get_transfer_store() -> dict[str, dict[str, Any]]:
+    """Return the staged-transfer store (read-only inspection for tests/demo)."""
+    return _STAGED_TRANSFERS
